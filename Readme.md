@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
-* Студент: [Лаура](https://up.htmlacademy.ru/javascript/20/user/1351731).
-* Наставник: `Неизвестно`.
+- Студент: [Лаура](https://up.htmlacademy.ru/javascript/20/user/1351731).
+- Наставник: [Анастасия Шишова](https://htmlacademy.ru/profile/anashi).
 
 ---
 
