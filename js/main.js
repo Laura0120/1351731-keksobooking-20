@@ -1,5 +1,7 @@
-var TYPE = ['palace', 'flat', 'house', 'bungalo'];
-var REGISTRATION_TIME = ['12:00', '13:00', '14:00'];
+'use strict';
+
+var ACCOMODATION_TYPES = ['palace', 'flat', 'house', 'bungalo'];
+var REGISTRATION_TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
@@ -8,19 +10,22 @@ var PHOTOS = [
 ];
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
-var ANNOUCEMENTS_COUNT = 8;
+var ANNOUNCEMENTS_COUNT = 8;
 
 var TITLE = ['title1', 'title2', 'title3', 'title4', 'title5', 'title6', 'title7', 'title8'];
-var PRICE = [100, 200, 300, 400, 500, 600, 700, 800];
+var PRICES = [100, 200, 300, 400, 500, 600, 700, 800];
 var ROOMS = [1, 2, 3, 4, 5, 6, 7, 8];
 var GUESTS = [1, 2, 3, 4, 5, 6, 7, 8];
 var DESCRIPTION = ['добро пожаловать!'];
 
-var annoucements = [];
+var announcements = [];
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
-var mapWidth = map.offsetWidth;
-var listPin = document.querySelector('.map__pins');
+
+var showMap = function () {
+  map.classList.remove('map--faded');
+};
+
+var pinsContainer = document.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
 var getRandomValue = function (min, max) {
@@ -40,26 +45,27 @@ var getArrayRandomLength = function (array) {
   return arrayRendomLength;
 };
 
-var createAnnoucements = function () {
-  var generatedAnnoucements = [];
-  for (var i = 1; i <= ANNOUCEMENTS_COUNT; i++) {
+var createAnnouncements = function () {
+  var mapWidth = map.offsetWidth;
+  var generatedAnnouncements = [];
+  for (var i = 1; i <= ANNOUNCEMENTS_COUNT; i++) {
     var location = {
       x: getRandomValue(0, mapWidth),
       y: getRandomValue(130, 630),
     };
-    generatedAnnoucements.push({
+    generatedAnnouncements.push({
       author: {
         avatar: 'img/avatars/user' + '0' + i + '.png',
       },
       offer: {
         title: getRandomItem(TITLE),
         address: location.x + ', ' + location.y,
-        price: getRandomItem(PRICE),
-        type: getRandomItem(TYPE),
+        price: getRandomItem(PRICES),
+        type: getRandomItem(ACCOMODATION_TYPES),
         rooms: getRandomItem(ROOMS),
         guests: getRandomItem(GUESTS),
-        checkin: getRandomItem(REGISTRATION_TIME),
-        checkout: getRandomItem(REGISTRATION_TIME),
+        checkin: getRandomItem(REGISTRATION_TIMES),
+        checkout: getRandomItem(REGISTRATION_TIMES),
         features: getArrayRandomLength(FEATURES),
         description: getRandomItem(DESCRIPTION),
         photos: getArrayRandomLength(PHOTOS),
@@ -67,27 +73,29 @@ var createAnnoucements = function () {
       location: location,
     });
   }
-  return generatedAnnoucements;
+  return generatedAnnouncements;
 };
 
-var createPinElement = function (annoucement) {
+var createPinElement = function (announcement) {
   var pinElement = pinTemplate.cloneNode(true);
 
-  pinElement.style.left = annoucement.location.x - PIN_WIDTH / 2 + 'px';
-  pinElement.style.top = annoucement.location.y - PIN_HEIGHT + 'px';
-  pinElement.querySelector('img').src = annoucement.author.avatar;
-  pinElement.querySelector('img').alt = annoucement.offer.title;
+  pinElement.style.left = announcement.location.x - PIN_WIDTH / 2 + 'px';
+  pinElement.style.top = announcement.location.y - PIN_HEIGHT + 'px';
+  pinElement.querySelector('img').src = announcement.author.avatar;
+  pinElement.querySelector('img').alt = announcement.offer.title;
   return pinElement;
 };
 
-var renderPinElement = function () {
+var renderPinElements = function () {
   var fragment = document.createDocumentFragment();
-  for (var i = 0; i < annoucements.length; i++) {
-    fragment.appendChild(createPinElement(annoucements[i]));
+  for (var i = 0; i < announcements.length; i++) {
+    fragment.appendChild(createPinElement(announcements[i]));
   }
 
-  listPin.appendChild(fragment);
+  pinsContainer.appendChild(fragment);
 };
 
-annoucements = createAnnoucements();
-renderPinElement();
+announcements = createAnnouncements();
+
+showMap();
+renderPinElements();
