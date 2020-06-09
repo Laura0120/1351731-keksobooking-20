@@ -12,7 +12,7 @@ var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var ANNOUNCEMENTS_COUNT = 8;
 
-var TITLE = ['title1', 'title2', 'title3', 'title4', 'title5', 'title6', 'title7', 'title8'];
+var TITLES = ['title1', 'title2', 'title3', 'title4', 'title5', 'title6', 'title7', 'title8'];
 var PRICES = [100, 200, 300, 400, 500, 600, 700, 800];
 var ROOMS = [1, 2, 3, 4, 5, 6, 7, 8];
 var GUESTS = [1, 2, 3, 4, 5, 6, 7, 8];
