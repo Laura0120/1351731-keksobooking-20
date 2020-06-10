@@ -21,13 +21,12 @@ var DESCRIPTION = ['добро пожаловать!'];
 var announcements = [];
 var map = document.querySelector('.map');
 
-var showMap = function () {
-  map.classList.remove('map--faded');
-};
-
 var pinsContainer = document.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
+var showMap = function () {
+  map.classList.remove('map--faded');
+};
 var getRandomValue = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -58,7 +57,7 @@ var createAnnouncements = function () {
         avatar: 'img/avatars/user' + '0' + i + '.png',
       },
       offer: {
-        title: getRandomItem(TITLE),
+        title: getRandomItem(TITLES),
         address: location.x + ', ' + location.y,
         price: getRandomItem(PRICES),
         type: getRandomItem(ACCOMODATION_TYPES),
