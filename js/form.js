@@ -3,8 +3,8 @@
 (function () {
   var adForm = document.querySelector('.ad-form');
   var fieldsetsAdForm = adForm.querySelectorAll('fieldset');
-  var roomNumber = adForm.querySelector('#room_number');
-  var numberOfGuests = adForm.querySelector('#capacity');
+  var roomNumberInput = adForm.querySelector('#room_number');
+  var numberOfGuestsInput = adForm.querySelector('#capacity');
 
   var getAddress = function () {
     var addressInput = adForm.querySelector('#address');
@@ -15,58 +15,49 @@
     addressInput.disabled = true;
   };
 
-  getAddress();
-
   var handleRoomNumberChange = function () {
-    for (var i = 0; i < numberOfGuests.options.length; i++) {
-      var guestsOption = numberOfGuests.options[i];
-      if (roomNumber.value === '100') {
+    for (var i = 0; i < numberOfGuestsInput.options.length; i++) {
+      var guestsOption = numberOfGuestsInput.options[i];
+      if (roomNumberInput.value === '100') {
         guestsOption.disabled = guestsOption.value > '0';
-      } else if (guestsOption.value <= roomNumber.value && guestsOption.value !== '0') {
+      } else if (guestsOption.value <= roomNumberInput.value && guestsOption.value !== '0') {
         guestsOption.disabled = false;
       } else {
         guestsOption.disabled = true;
       }
     }
 
-    var selectedOption = numberOfGuests.selectedOptions[0];
+    var selectedOption = numberOfGuestsInput.selectedOptions[0];
 
     if (selectedOption.disabled === true) {
-      numberOfGuests.setCustomValidity('выбрано недопустимое значение');
+      numberOfGuestsInput.setCustomValidity('выбрано недопустимое значение');
     } else {
-      numberOfGuests.setCustomValidity('');
+      numberOfGuestsInput.setCustomValidity('');
     }
   };
 
-  handleRoomNumberChange();
-
-  roomNumber.addEventListener('change', handleRoomNumberChange);
-
-  numberOfGuests.addEventListener('change', function () {
-    var selectedOption = numberOfGuests.selectedOptions[0];
-    if (selectedOption.disabled === false) {
-      numberOfGuests.setCustomValidity('');
-    }
-  });
-
-  var addDisabled = function () {
+  var disableAdForm = function () {
     for (var i = 0; i < fieldsetsAdForm.length; i++) {
       fieldsetsAdForm[i].disabled = true;
     }
-    return fieldsetsAdForm;
   };
 
-  addDisabled();
-
-  var cancelDisabled = function () {
+  var enableAdForm = function () {
     for (var i = 0; i < fieldsetsAdForm.length; i++) {
       fieldsetsAdForm[i].disabled = false;
     }
-    return fieldsetsAdForm;
   };
+
+  roomNumberInput.addEventListener('change', function () {
+    handleRoomNumberChange();
+  });
+
+  getAddress();
+  handleRoomNumberChange();
+  disableAdForm();
 
   window.form = {
     adForm: adForm,
-    cancelDisabled: cancelDisabled,
+    enableAdForm: enableAdForm,
   };
 })();

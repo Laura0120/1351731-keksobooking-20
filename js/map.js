@@ -15,7 +15,7 @@
   var showMap = function () {
     window.main.map.classList.remove('map--faded');
     window.form.adForm.classList.remove('ad-form--disabled');
-    window.form.cancelDisabled();
+    window.form.enableAdForm();
     renderPinElements();
   };
 
@@ -30,6 +30,7 @@
       showMap();
     }
   });
+
   window.map = {
     mark: mark,
   };
