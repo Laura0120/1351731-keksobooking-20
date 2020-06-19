@@ -5,9 +5,9 @@
   var fieldsetsAdForm = adForm.querySelectorAll('fieldset');
   var roomNumberInput = adForm.querySelector('#room_number');
   var numberOfGuestsInput = adForm.querySelector('#capacity');
+  var addressInput = adForm.querySelector('#address');
 
   var getAddress = function () {
-    var addressInput = adForm.querySelector('#address');
     addressInput.value =
       Math.round(window.map.markOffsetLeft + window.pin.PIN_WIDTH / 2) +
       ', ' +

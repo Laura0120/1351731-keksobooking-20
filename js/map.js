@@ -12,7 +12,7 @@
     var announcements = window.data.createAnnouncements();
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < announcements.length; i++) {
-      fragment.appendChild(window.pin.createPinElement(announcements[i]));
+      fragment.appendChild(window.pin.createElement(announcements[i]));
     }
 
     pinsContainer.appendChild(fragment);
@@ -39,6 +39,6 @@
   window.map = {
     markOffsetLeft: window.util.getOffsetLeft(mark),
     markOffsetTop: window.util.getOffsetTop(mark),
-    getWidth: getWidth(),
+    getWidth: getWidth,
   };
 })();

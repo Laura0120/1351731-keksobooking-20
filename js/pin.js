@@ -6,7 +6,7 @@
 
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
-  var createPinElement = function (announcement) {
+  var createElement = function (announcement) {
     var pinElement = pinTemplate.cloneNode(true);
     pinElement.style.left = announcement.location.x - PIN_WIDTH / 2 + 'px';
     pinElement.style.top = announcement.location.y - PIN_HEIGHT + 'px';
@@ -18,6 +18,6 @@
   window.pin = {
     PIN_WIDTH: PIN_WIDTH,
     PIN_HEIGHT: PIN_HEIGHT,
-    createPinElement: createPinElement,
+    createElement: createElement,
   };
 })();
