@@ -16,17 +16,14 @@
   var GUESTS = [1, 2, 3, 4, 5, 6, 7, 8];
   var DESCRIPTION = ['добро пожаловать!'];
 
-  var announcements = [];
-
   var createAnnouncements = function () {
-    var mapWidth = window.main.map.offsetWidth;
-    var generatedAnnouncements = [];
+    var announcements = [];
     for (var i = 1; i <= ANNOUNCEMENTS_COUNT; i++) {
       var location = {
-        x: window.util.getRandomValue(0, mapWidth),
+        x: window.util.getRandomValue(0, window.map.widthMap),
         y: window.util.getRandomValue(130, 630),
       };
-      generatedAnnouncements.push({
+      announcements.push({
         author: {
           avatar: 'img/avatars/user' + '0' + i + '.png',
         },
@@ -46,12 +43,10 @@
         location: location,
       });
     }
-    return generatedAnnouncements;
+    return announcements;
   };
 
-  announcements = createAnnouncements();
-
   window.data = {
-    announcements: announcements,
+    createAnnouncements: createAnnouncements,
   };
 })();

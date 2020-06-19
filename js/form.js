@@ -9,9 +9,9 @@
   var getAddress = function () {
     var addressInput = adForm.querySelector('#address');
     addressInput.value =
-      Math.round(window.map.mark.offsetLeft + window.pin.PIN_WIDTH / 2) +
+      Math.round(window.map.markOffsetLeft + window.pin.PIN_WIDTH / 2) +
       ', ' +
-      Math.round(window.map.mark.offsetTop + window.pin.PIN_HEIGHT);
+      Math.round(window.map.markOffsetTop + window.pin.PIN_HEIGHT);
     addressInput.disabled = true;
   };
 
@@ -43,6 +43,7 @@
   };
 
   var enableAdForm = function () {
+    adForm.classList.remove('ad-form--disabled');
     for (var i = 0; i < fieldsetsAdForm.length; i++) {
       fieldsetsAdForm[i].disabled = false;
     }
@@ -57,7 +58,6 @@
   disableAdForm();
 
   window.form = {
-    adForm: adForm,
-    enableAdForm: enableAdForm,
+    enable: enableAdForm,
   };
 })();
