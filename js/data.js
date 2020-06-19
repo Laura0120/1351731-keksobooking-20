@@ -20,7 +20,7 @@
     var announcements = [];
     for (var i = 1; i <= ANNOUNCEMENTS_COUNT; i++) {
       var location = {
-        x: window.util.getRandomValue(0, window.map.widthMap),
+        x: window.util.getRandomValue(0, getWidth()),
         y: window.util.getRandomValue(130, 630),
       };
       announcements.push({

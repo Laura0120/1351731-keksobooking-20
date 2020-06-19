@@ -4,6 +4,10 @@
   var pinsContainer = mapElement.querySelector('.map__pins');
   var mark = pinsContainer.querySelector('.map__pin--main');
 
+  var getWidth = function () {
+    return window.util.getWidth(mapElement);
+  };
+
   var renderPinElements = function () {
     var announcements = window.data.createAnnouncements();
     var fragment = document.createDocumentFragment();
@@ -35,6 +39,6 @@
   window.map = {
     markOffsetLeft: window.util.getOffsetLeft(mark),
     markOffsetTop: window.util.getOffsetTop(mark),
-    widthMap: window.util.getWidth(mapElement),
+    getWidth: getWidth(),
   };
 })();
