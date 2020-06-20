@@ -2,10 +2,9 @@
 (function () {
   var mapElement = document.querySelector('.map');
   var pinsContainer = mapElement.querySelector('.map__pins');
-  var mark = pinsContainer.querySelector('.map__pin--main');
 
   var getWidth = function () {
-    return window.util.getWidth(mapElement);
+    return mapElement.offsetWidth;
   };
 
   var renderPinElements = function () {
@@ -21,24 +20,11 @@
   var showMap = function () {
     mapElement.classList.remove('map--faded');
     window.form.enable();
-    renderPinElements();
   };
 
-  mark.addEventListener('keydown', function (evt) {
-    if (evt.code === window.util.KEY_ENTER) {
-      showMap();
-    }
-  });
-
-  mark.addEventListener('mousedown', function (evt) {
-    if (evt.which === 1) {
-      showMap();
-    }
-  });
-
   window.map = {
-    markOffsetLeft: window.util.getOffsetLeft(mark),
-    markOffsetTop: window.util.getOffsetTop(mark),
     getWidth: getWidth,
+    showMap: showMap,
+    renderPinElements: renderPinElements,
   };
 })();

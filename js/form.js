@@ -5,15 +5,6 @@
   var fieldsetsAdForm = adForm.querySelectorAll('fieldset');
   var roomNumberInput = adForm.querySelector('#room_number');
   var numberOfGuestsInput = adForm.querySelector('#capacity');
-  var addressInput = adForm.querySelector('#address');
-
-  var getAddress = function () {
-    addressInput.value =
-      Math.round(window.map.markOffsetLeft + window.pin.PIN_WIDTH / 2) +
-      ', ' +
-      Math.round(window.map.markOffsetTop + window.pin.PIN_HEIGHT);
-    addressInput.disabled = true;
-  };
 
   var handleRoomNumberChange = function () {
     for (var i = 0; i < numberOfGuestsInput.options.length; i++) {
@@ -53,7 +44,6 @@
     handleRoomNumberChange();
   });
 
-  getAddress();
   handleRoomNumberChange();
   disableAdForm();
 
