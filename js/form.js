@@ -5,6 +5,11 @@
   var fieldsetsAdForm = adForm.querySelectorAll('fieldset');
   var roomNumberInput = adForm.querySelector('#room_number');
   var numberOfGuestsInput = adForm.querySelector('#capacity');
+  var addressInput = document.querySelector('#address');
+
+  var setAddress = function (x, y) {
+    addressInput.value = Math.round(x) + ', ' + Math.round(y);
+  };
 
   var handleRoomNumberChange = function () {
     for (var i = 0; i < numberOfGuestsInput.options.length; i++) {
@@ -44,10 +49,12 @@
     handleRoomNumberChange();
   });
 
+  setAddress(window.move.location.x, window.move.location.y);
   handleRoomNumberChange();
   disableAdForm();
 
   window.form = {
     enable: enableAdForm,
+    setAddress: setAddress,
   };
 })();

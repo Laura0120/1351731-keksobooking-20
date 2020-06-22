@@ -1,16 +1,11 @@
 'use strict';
 
 (function () {
+  var ARROW_HEIGHT = 22;
   var markElement = document.querySelector('.map__pin--main');
-  var addressInput = document.querySelector('#address');
   var location = {
     x: markElement.offsetLeft + window.pin.PIN_WIDTH / 2,
     y: markElement.offsetTop + window.pin.PIN_HEIGHT,
-  };
-  var renderPinElements = false;
-
-  var getAddress = function () {
-    addressInput.value = Math.round(location.x) + ', ' + Math.round(location.y);
   };
 
   markElement.addEventListener('keydown', function (evt) {
@@ -22,11 +17,7 @@
   markElement.addEventListener('mousedown', function (evt) {
     if (evt.which === 1) {
       window.map.showMap();
-      if (!renderPinElements) {
-        window.map.renderPinElements();
-      }
     }
-    renderPinElements = true;
 
     evt.preventDefault();
 
@@ -43,30 +34,35 @@
         y: startCoords.y - moveEvt.clientY,
       };
 
+      var currentCoords = {
+        x: markElement.offsetLeft - shift.x,
+        y: markElement.offsetTop - shift.y,
+      };
+
       startCoords = {
         x: moveEvt.clientX,
         y: moveEvt.clientY,
       };
 
       if (
-        markElement.offsetLeft + window.pin.PIN_WIDTH / 2 - shift.x <= 0 ||
-        markElement.offsetLeft + window.pin.PIN_WIDTH - shift.x >= window.map.getWidth() ||
-        markElement.offsetTop + window.pin.PIN_HEIGHT - shift.y <= 130 ||
-        markElement.offsetTop + window.pin.PIN_HEIGHT - shift.y >= 630
+        currentCoords.x + markElement.offsetWidth / 2 <= 0 ||
+        currentCoords.x + markElement.offsetWidth >= window.map.getWidth() ||
+        currentCoords.y + markElement.offsetHeight + ARROW_HEIGHT <= 130 ||
+        currentCoords.y + markElement.offsetHeight + ARROW_HEIGHT >= 630
       ) {
         shift.x = 0;
         shift.y = 0;
       }
 
-      markElement.style.top = markElement.offsetTop - shift.y + 'px';
       markElement.style.left = markElement.offsetLeft - shift.x + 'px';
+      markElement.style.top = markElement.offsetTop - shift.y + 'px';
 
       location = {
-        x: markElement.offsetLeft + window.pin.PIN_WIDTH / 2,
-        y: markElement.offsetTop + window.pin.PIN_HEIGHT,
+        x: currentCoords.x + markElement.offsetWidth / 2,
+        y: currentCoords.y + markElement.offsetHeight + ARROW_HEIGHT,
       };
 
-      getAddress();
+      window.form.setAddress(location.x, location.y);
     };
 
     var onMouseUp = function (upEvt) {
@@ -80,5 +76,7 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
-  getAddress();
+  window.move = {
+    location: location,
+  };
 })();

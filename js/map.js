@@ -18,13 +18,15 @@
   };
 
   var showMap = function () {
-    mapElement.classList.remove('map--faded');
-    window.form.enable();
+    if (mapElement.classList.contains('map--faded')) {
+      mapElement.classList.remove('map--faded');
+      window.form.enable();
+      renderPinElements();
+    }
   };
 
   window.map = {
     getWidth: getWidth,
     showMap: showMap,
-    renderPinElements: renderPinElements,
   };
 })();
