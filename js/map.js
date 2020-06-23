@@ -7,8 +7,7 @@
     return mapElement.offsetWidth;
   };
 
-  var renderPinElements = function () {
-    var announcements = window.data.createAnnouncements();
+  var renderPinElements = function (announcements) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < announcements.length; i++) {
       fragment.appendChild(window.pin.createElement(announcements[i]));
@@ -21,7 +20,7 @@
     if (mapElement.classList.contains('map--faded')) {
       mapElement.classList.remove('map--faded');
       window.form.enable();
-      renderPinElements();
+      window.request.load(renderPinElements, window.request.errorHandler);
     }
   };
 
