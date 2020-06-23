@@ -2,6 +2,7 @@
 
 (function () {
   var KEY_ENTER = 'Enter';
+  var LEFT_MOUSE_BUTTON = 1;
 
   var getRandomValue = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -25,5 +26,6 @@
     getRandomItem: getRandomItem,
     getArrayRandomLength: getArrayRandomLength,
     KEY_ENTER: KEY_ENTER,
+    LEFT_MOUSE_BUTTON: LEFT_MOUSE_BUTTON,
   };
 })();
