@@ -47,13 +47,11 @@
       };
 
       if (
-        currentCoords.x + MARK_ELEMENT.offsetWidth / 2 >= 0 ||
-        currentCoords.x + MARK_ELEMENT.offsetWidth / 2 <= window.map.getWidth() ||
-        currentCoords.y + MARK_ELEMENT.offsetHeight + ARROW_HEIGHT >= MIN_COORDINATES_Y ||
+        currentCoords.x + MARK_ELEMENT.offsetWidth / 2 >= 0 &&
+        currentCoords.x + MARK_ELEMENT.offsetWidth / 2 <= window.map.getWidth() &&
+        currentCoords.y + MARK_ELEMENT.offsetHeight + ARROW_HEIGHT >= MIN_COORDINATES_Y &&
         currentCoords.y + MARK_ELEMENT.offsetHeight + ARROW_HEIGHT <= MAX_COORDINATES_Y
       ) {
-        // shift.x = 0;
-        // shift.y = 0;
         MARK_ELEMENT.style.left = currentCoords.x + 'px';
         MARK_ELEMENT.style.top = currentCoords.y + 'px';
 
