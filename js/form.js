@@ -5,13 +5,14 @@
   var fieldsetsAdForm = adForm.querySelectorAll('fieldset');
   var roomNumberInput = adForm.querySelector('#room_number');
   var numberOfGuestsInput = adForm.querySelector('#capacity');
-  var addressInput = adForm.querySelector('#address');
+  var addressInput = document.querySelector('#address');
+  var startLocation = {
+    x: window.userPin.MARK_ELEMENT.offsetLeft + window.userPin.MARK_ELEMENT.offsetWidth / 2,
+    y: window.userPin.MARK_ELEMENT.offsetTop + window.userPin.MARK_ELEMENT.offsetHeight / 2,
+  };
 
-  var getAddress = function () {
-    addressInput.value =
-      Math.round(window.map.markOffsetLeft + window.pin.PIN_WIDTH / 2) +
-      ', ' +
-      Math.round(window.map.markOffsetTop + window.pin.PIN_HEIGHT);
+  var setAddress = function (x, y) {
+    addressInput.value = Math.round(x) + ', ' + Math.round(y);
     addressInput.disabled = true;
   };
 
@@ -53,11 +54,12 @@
     handleRoomNumberChange();
   });
 
-  getAddress();
+  setAddress(startLocation.x, startLocation.y);
   handleRoomNumberChange();
   disableAdForm();
 
   window.form = {
     enable: enableAdForm,
+    setAddress: setAddress,
   };
 })();

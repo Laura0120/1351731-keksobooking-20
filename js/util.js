@@ -2,6 +2,7 @@
 
 (function () {
   var KEY_ENTER = 'Enter';
+  var LEFT_MOUSE_BUTTON = 1;
 
   var getRandomValue = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -20,25 +21,11 @@
     return arrayRendomLength;
   };
 
-  var getWidth = function (element) {
-    return element.offsetWidth;
-  };
-
-  var getOffsetLeft = function (element) {
-    return element.offsetLeft;
-  };
-
-  var getOffsetTop = function (element) {
-    return element.offsetTop;
-  };
-
   window.util = {
     getRandomValue: getRandomValue,
     getRandomItem: getRandomItem,
     getArrayRandomLength: getArrayRandomLength,
-    getWidth: getWidth,
-    getOffsetLeft: getOffsetLeft,
-    getOffsetTop: getOffsetTop,
     KEY_ENTER: KEY_ENTER,
+    LEFT_MOUSE_BUTTON: LEFT_MOUSE_BUTTON,
   };
 })();
