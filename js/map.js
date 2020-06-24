@@ -12,8 +12,14 @@
     for (var i = 0; i < announcements.length; i++) {
       fragment.appendChild(window.pin.createElement(announcements[i]));
     }
-
     pinsContainer.appendChild(fragment);
+  };
+
+  var removePinElements = function () {
+    var similairesPinElement = pinsContainer.querySelectorAll('.map__pin');
+    for (var i = 1; i < similairesPinElement.length; i++) {
+      similairesPinElement[i].remove();
+    }
   };
 
   var showMap = function () {
@@ -24,8 +30,14 @@
     }
   };
 
+  var disableMap = function () {
+    mapElement.classList.add('map--faded');
+  };
+
   window.map = {
     getWidth: getWidth,
     showMap: showMap,
+    disable: disableMap,
+    removePinElements: removePinElements,
   };
 })();

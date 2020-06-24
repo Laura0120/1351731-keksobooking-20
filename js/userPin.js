@@ -2,26 +2,32 @@
 
 (function () {
   var ARROW_HEIGHT = 22;
-  var MARK_ELEMENT = document.querySelector('.map__pin--main');
+  var markElement = document.querySelector('.map__pin--main');
   var MIN_COORDINATES_Y = 130;
   var MAX_COORDINATES_Y = 630;
   var location = {
-    x: MARK_ELEMENT.offsetLeft + MARK_ELEMENT.offsetWidth / 2,
-    y: MARK_ELEMENT.offsetTop + MARK_ELEMENT.offsetHeight + ARROW_HEIGHT,
+    x: markElement.offsetLeft + markElement.offsetWidth / 2,
+    y: markElement.offsetTop + markElement.offsetHeight / 2,
   };
 
-  MARK_ELEMENT.addEventListener('keydown', function (evt) {
+  markElement.addEventListener('keydown', function (evt) {
     if (evt.code === window.util.KEY_ENTER) {
       window.map.showMap();
     }
   });
 
-  MARK_ELEMENT.addEventListener('mousedown', function (evt) {
+  markElement.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
     if (evt.which !== window.util.LEFT_MOUSE_BUTTON) {
       return;
     }
     window.map.showMap();
+    location = {
+      x: markElement.offsetLeft + markElement.offsetWidth / 2,
+      y: markElement.offsetTop + markElement.offsetHeight + ARROW_HEIGHT,
+    };
+
+    window.form.setAddress(location.x, location.y);
 
     var startCoords = {
       x: evt.clientX,
@@ -37,8 +43,8 @@
       };
 
       var currentCoords = {
-        x: MARK_ELEMENT.offsetLeft - shift.x,
-        y: MARK_ELEMENT.offsetTop - shift.y,
+        x: markElement.offsetLeft - shift.x,
+        y: markElement.offsetTop - shift.y,
       };
 
       startCoords = {
@@ -46,21 +52,17 @@
         y: moveEvt.clientY,
       };
 
-      if (
-        currentCoords.x + MARK_ELEMENT.offsetWidth / 2 >= 0 &&
-        currentCoords.x + MARK_ELEMENT.offsetWidth / 2 <= window.map.getWidth() &&
-        currentCoords.y + MARK_ELEMENT.offsetHeight + ARROW_HEIGHT >= MIN_COORDINATES_Y &&
-        currentCoords.y + MARK_ELEMENT.offsetHeight + ARROW_HEIGHT <= MAX_COORDINATES_Y
-      ) {
-        MARK_ELEMENT.style.left = currentCoords.x + 'px';
-        MARK_ELEMENT.style.top = currentCoords.y + 'px';
-
-        location = {
-          x: currentCoords.x + MARK_ELEMENT.offsetWidth / 2,
-          y: currentCoords.y + MARK_ELEMENT.offsetHeight + ARROW_HEIGHT,
-        };
-
+      if (currentCoords.x + markElement.offsetWidth / 2 >= 0 && currentCoords.x + markElement.offsetWidth / 2 <= window.map.getWidth()) {
+        markElement.style.left = currentCoords.x + 'px';
+        location.x = currentCoords.x + markElement.offsetWidth / 2;
         window.form.setAddress(location.x, location.y);
+      }
+      if (
+        currentCoords.y + markElement.offsetHeight + ARROW_HEIGHT >= MIN_COORDINATES_Y &&
+        currentCoords.y + markElement.offsetHeight + ARROW_HEIGHT <= MAX_COORDINATES_Y
+      ) {
+        markElement.style.top = currentCoords.y + 'px';
+        location.y = currentCoords.y + markElement.offsetHeight + ARROW_HEIGHT;
       }
     };
 
@@ -77,6 +79,5 @@
 
   window.userPin = {
     location: location,
-    MARK_ELEMENT: MARK_ELEMENT,
   };
 })();
