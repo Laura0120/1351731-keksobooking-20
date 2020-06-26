@@ -13,7 +13,7 @@
   };
 
   var onPopupSuccessEscPress = function (evt) {
-    if (evt.key === window.util.KEY_ESC) {
+    if (evt.key === window.utils.KEY_ESC) {
       evt.preventDefault();
       successElement.remove();
       document.removeEventListener('click', onPopupSuccessClose);
@@ -31,7 +31,7 @@
   };
 
   var onPopupErrorEscPress = function (evt) {
-    if (evt.key === window.util.KEY_ESC) {
+    if (evt.key === window.utils.KEY_ESC) {
       evt.preventDefault();
       errorElement.remove();
       document.removeEventListener('click', onPopupErrorClose);
@@ -40,10 +40,12 @@
   };
 
   var onPopupErrorClose = function () {
-    errorElement.remove();
-    document.removeEventListener('click', onPopupErrorClose);
-    errorButton.removeEventListener('click', onPopupErrorClose);
-    document.removeEventListener('keydown', onPopupErrorEscPress);
+    errorButton.addEventListener('click', function () {
+      errorElement.remove();
+      document.removeEventListener('click', onPopupErrorClose);
+      errorButton.removeEventListener('click', onPopupErrorClose);
+      document.removeEventListener('keydown', onPopupErrorEscPress);
+    });
   };
 
   window.popup = {

@@ -11,14 +11,14 @@
   };
 
   markElement.addEventListener('keydown', function (evt) {
-    if (evt.code === window.util.KEY_ENTER) {
+    if (evt.code === window.utils.KEY_ENTER) {
       window.map.showMap();
     }
   });
 
   markElement.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-    if (evt.which !== window.util.LEFT_MOUSE_BUTTON) {
+    if (evt.which !== window.utils.LEFT_MOUSE_BUTTON) {
       return;
     }
     window.map.showMap();
@@ -79,5 +79,6 @@
 
   window.userPin = {
     location: location,
+    markElement: markElement,
   };
 })();

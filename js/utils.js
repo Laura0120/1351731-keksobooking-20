@@ -22,7 +22,7 @@
     return arrayRendomLength;
   };
 
-  window.util = {
+  window.utils = {
     KEY_ENTER: KEY_ENTER,
     KEY_ESC: KEY_ESC,
     LEFT_MOUSE_BUTTON: LEFT_MOUSE_BUTTON,
