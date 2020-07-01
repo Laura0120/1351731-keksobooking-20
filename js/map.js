@@ -20,7 +20,9 @@
 
   var renderPinElements = function (data) {
     var takeNumber = data.length > ANNOUNCEMENT_COUNT ? ANNOUNCEMENT_COUNT : data.length;
-    filtersСontainer.before(window.card.createElement(data[0]));
+    if (takeNumber.length !== 0) {
+      filtersСontainer.before(window.card.createElement(data[0]));
+    }
     for (var i = 0; i < takeNumber; i++) {
       (function () {
         var element = window.utils.getByIndex(data, i);
@@ -80,5 +82,6 @@
     showMap: showMap,
     disable: disableMap,
     removePinElements: removePinElements,
+    removeCard: removeCard,
   };
 })();

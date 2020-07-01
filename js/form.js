@@ -79,6 +79,7 @@
 
   var onUploadSuccess = function () {
     window.map.removePinElements();
+    window.map.removeCard();
     adForm.reset();
     window.userPin.reset();
     disableAdForm();
