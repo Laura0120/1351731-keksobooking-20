@@ -1,35 +1,37 @@
 'use strict';
 (function () {
+  var ANNOUNCEMENT_COUNT = 5;
   var mapElement = document.querySelector('.map');
-
   var pinsContainer = mapElement.querySelector('.map__pins');
   var filtersСontainer = mapElement.querySelector('.map__filters-container');
+  var housingTypeSelect = filtersСontainer.querySelector('#housing-type');
+  var announcements = [];
 
   var getWidthMap = function () {
     return mapElement.offsetWidth;
   };
 
-  var renderPinElements = function (announcements) {
-    var fragment = document.createDocumentFragment();
-    filtersСontainer.before(window.card.createElement(announcements[0]));
-    var getPinByIndex = function (array, index) {
-      var value = array[index];
-      var pinElement = window.pin.createElement(value);
-      pinElement.addEventListener('click', function () {
-        var mapCard = document.querySelector('.map__card');
-        if (mapCard) {
-          mapCard.remove();
-        }
-        filtersСontainer.before(window.card.createElement(value));
-      });
-      return pinElement;
-    };
-
-    for (var i = 0; i < announcements.length; i++) {
-      fragment.appendChild(getPinByIndex(announcements, i));
+  var removeCard = function () {
+    var mapCard = document.querySelector('.map__card');
+    if (mapCard) {
+      mapCard.remove();
     }
+  };
 
-    pinsContainer.appendChild(fragment);
+  var renderPinElements = function (data) {
+    var takeNumber = data.length > ANNOUNCEMENT_COUNT ? ANNOUNCEMENT_COUNT : data.length;
+    filtersСontainer.before(window.card.createElement(data[0]));
+    for (var i = 0; i < takeNumber; i++) {
+      (function () {
+        var element = window.utils.getByIndex(data, i);
+        var pinElement = window.pin.createElement(element);
+        pinsContainer.appendChild(pinElement);
+        pinElement.addEventListener('click', function () {
+          removeCard();
+          filtersСontainer.before(window.card.createElement(element));
+        });
+      })();
+    }
   };
 
   var removePinElements = function () {
@@ -39,11 +41,29 @@
     }
   };
 
+  var successHandler = function (data) {
+    announcements = data;
+    updateAnnouncements();
+  };
+
+  var updateAnnouncements = function () {
+    removePinElements();
+    removeCard();
+    if (housingTypeSelect.selectedOptions[0].value === 'any') {
+      renderPinElements(announcements);
+    } else {
+      var sameTypeHousing = announcements.filter(function (it) {
+        return it.offer.type === housingTypeSelect.selectedOptions[0].value;
+      });
+      renderPinElements(sameTypeHousing);
+    }
+  };
+
   var showMap = function () {
     if (mapElement.classList.contains('map--faded')) {
       mapElement.classList.remove('map--faded');
       window.form.enable();
-      window.backend.load(renderPinElements, window.backend.errorHandler);
+      window.backend.load(successHandler, window.backend.errorHandler);
     }
   };
 
@@ -51,16 +71,14 @@
     mapElement.classList.add('map--faded');
   };
 
-  var resetMap = function () {
-    window.userPin.markElement.style.left = '570px';
-    window.userPin.markElement.style.top = '375px';
-  };
+  housingTypeSelect.addEventListener('change', function () {
+    updateAnnouncements();
+  });
 
   window.map = {
     getWidth: getWidthMap,
     showMap: showMap,
     disable: disableMap,
     removePinElements: removePinElements,
-    reset: resetMap,
   };
 })();

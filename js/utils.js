@@ -22,6 +22,10 @@
     return arrayRendomLength;
   };
 
+  var getByIndex = function (array, index) {
+    return array[index];
+  };
+
   window.utils = {
     KEY_ENTER: KEY_ENTER,
     KEY_ESC: KEY_ESC,
@@ -29,5 +33,6 @@
     getRandomValue: getRandomValue,
     getRandomItem: getRandomItem,
     getArrayRandomLength: getArrayRandomLength,
+    getByIndex: getByIndex,
   };
 })();

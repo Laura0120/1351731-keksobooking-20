@@ -6,6 +6,7 @@
   var successElement = successTemplate.cloneNode(true);
   var errorTemplate = document.querySelector('#error').content.querySelector('.error ');
   var errorElement = errorTemplate.cloneNode(true);
+  var errorMessageElement = errorElement.querySelector('.error__message');
   var errorButton = errorElement.querySelector('.error__button');
 
   var createSuccess = function () {
@@ -26,7 +27,8 @@
     document.removeEventListener('keydown', onPopupSuccessEscPress);
   };
 
-  var createErrorPopup = function () {
+  var createErrorPopup = function (errorMessage) {
+    errorMessageElement.textContent = errorMessageElement.textContent + '\n' + errorMessage;
     mainElenent.appendChild(errorElement);
   };
 

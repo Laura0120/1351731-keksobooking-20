@@ -2,12 +2,22 @@
 
 (function () {
   var ARROW_HEIGHT = 22;
-  var markElement = document.querySelector('.map__pin--main');
   var MIN_COORDINATES_Y = 130;
   var MAX_COORDINATES_Y = 630;
-  var location = {
+
+  var markElement = document.querySelector('.map__pin--main');
+  var defaultLocation = {
     x: markElement.offsetLeft + markElement.offsetWidth / 2,
     y: markElement.offsetTop + markElement.offsetHeight / 2,
+  };
+  var location = {
+    x: defaultLocation.x,
+    y: defaultLocation.y,
+  };
+
+  var reset = function () {
+    location.x = defaultLocation.x;
+    location.y = defaultLocation.y;
   };
 
   markElement.addEventListener('keydown', function (evt) {
@@ -63,6 +73,7 @@
       ) {
         markElement.style.top = currentCoords.y + 'px';
         location.y = currentCoords.y + markElement.offsetHeight + ARROW_HEIGHT;
+        window.form.setAddress(location.x, location.y);
       }
     };
 
@@ -79,6 +90,6 @@
 
   window.userPin = {
     location: location,
-    markElement: markElement,
+    reset: reset,
   };
 })();
