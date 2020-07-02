@@ -6,10 +6,15 @@
   var MAX_COORDINATES_Y = 630;
 
   var markElement = document.querySelector('.map__pin--main');
-  var defaultLocation = {
-    x: markElement.offsetLeft + markElement.offsetWidth / 2,
-    y: markElement.offsetTop + markElement.offsetHeight / 2,
+  var defaultCoords = {
+    x: markElement.offsetLeft,
+    y: markElement.offsetTop,
   };
+  var defaultLocation = {
+    x: defaultCoords.x + markElement.offsetWidth / 2,
+    y: defaultCoords.y + markElement.offsetHeight / 2,
+  };
+
   var location = {
     x: defaultLocation.x,
     y: defaultLocation.y,
@@ -18,6 +23,9 @@
   var reset = function () {
     location.x = defaultLocation.x;
     location.y = defaultLocation.y;
+
+    markElement.style.left = defaultCoords.x + 'px';
+    markElement.style.top = defaultCoords.y + 'px';
   };
 
   markElement.addEventListener('keydown', function (evt) {

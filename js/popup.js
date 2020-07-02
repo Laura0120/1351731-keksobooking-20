@@ -28,7 +28,7 @@
   };
 
   var createErrorPopup = function (errorMessage) {
-    errorMessageElement.textContent = errorMessageElement.textContent + '\n' + errorMessage;
+    errorMessageElement.textContent = 'Ошибка загрузки объявления. ' + errorMessage;
     mainElenent.appendChild(errorElement);
   };
 
