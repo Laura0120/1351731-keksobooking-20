@@ -1,10 +1,30 @@
 'use strict';
 (function () {
   var ANNOUNCEMENT_COUNT = 5;
+  var PRICE = {
+    any: 'any',
+    middle: {
+      min: 10000,
+      max: 50000,
+    },
+    low: {
+      min: 0,
+      max: 10000,
+    },
+    high: {
+      min: 5000,
+      max: Infinity,
+    },
+  };
+
   var mapElement = document.querySelector('.map');
   var pinsContainer = mapElement.querySelector('.map__pins');
-  var filtersСontainer = mapElement.querySelector('.map__filters-container');
-  var housingTypeSelect = filtersСontainer.querySelector('#housing-type');
+  var filtersForm = mapElement.querySelector('.map__filters');
+  var typeSelect = filtersForm.querySelector('#housing-type');
+  var priceSelect = filtersForm.querySelector('#housing-price');
+  var roomsSelect = filtersForm.querySelector('#housing-rooms');
+  var guestsSelect = filtersForm.querySelector('#housing-guests');
+  var featuresCheckbox = filtersForm.querySelector('#housing-features');
   var announcements = [];
 
   var getWidthMap = function () {
@@ -21,7 +41,7 @@
   var renderPinElements = function (data) {
     var takeNumber = data.length > ANNOUNCEMENT_COUNT ? ANNOUNCEMENT_COUNT : data.length;
     if (takeNumber.length !== 0) {
-      filtersСontainer.before(window.card.createElement(data[0]));
+      filtersForm.before(window.card.createElement(data[0]));
     }
     for (var i = 0; i < takeNumber; i++) {
       (function () {
@@ -30,7 +50,7 @@
         pinsContainer.appendChild(pinElement);
         pinElement.addEventListener('click', function () {
           removeCard();
-          filtersСontainer.before(window.card.createElement(element));
+          filtersForm.before(window.card.createElement(element));
         });
       })();
     }
@@ -43,22 +63,44 @@
     }
   };
 
-  var successHandler = function (data) {
-    announcements = data;
-    updateAnnouncements();
+  var getFilterElement = function () {
+    var filterValue = {
+      type: typeSelect.selectedOptions[0].value,
+      price: PRICE[priceSelect.selectedOptions[0].value],
+      rooms: roomsSelect.selectedOptions[0].value,
+      guests: guestsSelect.selectedOptions[0].value,
+      features: Array.from(featuresCheckbox.querySelectorAll(':checked')).map(function (el) {
+        return el.value;
+      }),
+    };
+    return filterValue;
   };
 
   var updateAnnouncements = function () {
+    var filterValue = getFilterElement();
+
     removePinElements();
     removeCard();
-    if (housingTypeSelect.selectedOptions[0].value === 'any') {
-      renderPinElements(announcements);
-    } else {
-      var sameTypeHousing = announcements.filter(function (it) {
-        return it.offer.type === housingTypeSelect.selectedOptions[0].value;
-      });
-      renderPinElements(sameTypeHousing);
+
+    var filteredAnnouncements = announcements.filter(function (it) {
+      return (
+        (filterValue.type === 'any' || it.offer.type === filterValue.type) &&
+        (filterValue.price === 'any' || (it.offer.price <= filterValue.price.max && it.offer.price >= filterValue.price.min)) &&
+        (filterValue.rooms === 'any' || String(it.offer.rooms) === filterValue.rooms) &&
+        (filterValue.guests === 'any' || String(it.offer.guests) === filterValue.guests) &&
+        filterValue.features.every(function (el) {
+          return it.offer.features.indexOf(el) !== -1;
+        })
+      );
+    });
+    if (filteredAnnouncements.length !== 0) {
+      renderPinElements(filteredAnnouncements);
     }
+  };
+
+  var successHandler = function (data) {
+    announcements = data;
+    updateAnnouncements();
   };
 
   var showMap = function () {
@@ -73,7 +115,7 @@
     mapElement.classList.add('map--faded');
   };
 
-  housingTypeSelect.addEventListener('change', function () {
+  filtersForm.addEventListener('change', function () {
     updateAnnouncements();
   });
 
