@@ -50,9 +50,20 @@
 
     setupPhotos(cardElement, photosOffer);
 
+    var onCardEscPress = function (evt) {
+      if (evt.key === window.utils.KEY_ESC) {
+        evt.preventDefault();
+        cardElement.remove();
+        document.removeEventListener('keydown', onCardEscPress);
+      }
+    };
+
     buttonClose.addEventListener('click', function () {
       cardElement.remove();
+      document.removeEventListener('keydown', onCardEscPress);
     });
+
+    document.addEventListener('keydown', onCardEscPress);
     return cardElement;
   };
 
