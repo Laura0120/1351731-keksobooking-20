@@ -1,10 +1,10 @@
 'use strict';
 (function () {
   var ANNOUNCEMENT_COUNT = 5;
+
   var mapElement = document.querySelector('.map');
   var pinsContainer = mapElement.querySelector('.map__pins');
-  var filtersСontainer = mapElement.querySelector('.map__filters-container');
-  var housingTypeSelect = filtersСontainer.querySelector('#housing-type');
+  var filtersForm = mapElement.querySelector('.map__filters');
   var announcements = [];
 
   var getWidthMap = function () {
@@ -20,7 +20,9 @@
 
   var renderPinElements = function (data) {
     var takeNumber = data.length > ANNOUNCEMENT_COUNT ? ANNOUNCEMENT_COUNT : data.length;
-    filtersСontainer.before(window.card.createElement(data[0]));
+    if (takeNumber.length !== 0) {
+      filtersForm.before(window.card.createElement(data[0]));
+    }
     for (var i = 0; i < takeNumber; i++) {
       (function () {
         var element = window.utils.getByIndex(data, i);
@@ -28,7 +30,7 @@
         pinsContainer.appendChild(pinElement);
         pinElement.addEventListener('click', function () {
           removeCard();
-          filtersСontainer.before(window.card.createElement(element));
+          filtersForm.before(window.card.createElement(element));
         });
       })();
     }
@@ -43,20 +45,7 @@
 
   var successHandler = function (data) {
     announcements = data;
-    updateAnnouncements();
-  };
-
-  var updateAnnouncements = function () {
-    removePinElements();
-    removeCard();
-    if (housingTypeSelect.selectedOptions[0].value === 'any') {
-      renderPinElements(announcements);
-    } else {
-      var sameTypeHousing = announcements.filter(function (it) {
-        return it.offer.type === housingTypeSelect.selectedOptions[0].value;
-      });
-      renderPinElements(sameTypeHousing);
-    }
+    window.filter.updateAnnouncements(announcements);
   };
 
   var showMap = function () {
@@ -71,14 +60,18 @@
     mapElement.classList.add('map--faded');
   };
 
-  housingTypeSelect.addEventListener('change', function () {
-    updateAnnouncements();
+  filtersForm.addEventListener('change', function () {
+    window.filter.debounce(function () {
+      window.filter.updateAnnouncements(announcements);
+    });
   });
 
   window.map = {
     getWidth: getWidthMap,
     showMap: showMap,
     disable: disableMap,
+    renderPinElements: renderPinElements,
     removePinElements: removePinElements,
+    removeCard: removeCard,
   };
 })();
