@@ -30,7 +30,7 @@
 
   markElement.addEventListener('keydown', function (evt) {
     if (evt.code === window.utils.KEY_ENTER) {
-      window.map.showMap();
+      window.map.enable();
     }
   });
 
@@ -39,7 +39,7 @@
     if (evt.which !== window.utils.LEFT_MOUSE_BUTTON) {
       return;
     }
-    window.map.showMap();
+    window.map.enable();
     location = {
       x: markElement.offsetLeft + markElement.offsetWidth / 2,
       y: markElement.offsetTop + markElement.offsetHeight + ARROW_HEIGHT,

@@ -45,10 +45,10 @@
 
   var successHandler = function (data) {
     announcements = data;
-    window.filter.updateAnnouncements(announcements);
+    window.filter(announcements);
   };
 
-  var showMap = function () {
+  var enable = function () {
     if (mapElement.classList.contains('map--faded')) {
       mapElement.classList.remove('map--faded');
       window.form.enable();
@@ -56,20 +56,20 @@
     }
   };
 
-  var disableMap = function () {
+  var disable = function () {
     mapElement.classList.add('map--faded');
   };
 
   filtersForm.addEventListener('change', function () {
-    window.filter.debounce(function () {
-      window.filter.updateAnnouncements(announcements);
+    window.utils.debounce(function () {
+      window.filter(announcements);
     });
   });
 
   window.map = {
     getWidth: getWidthMap,
-    showMap: showMap,
-    disable: disableMap,
+    enable: enable,
+    disable: disable,
     renderPinElements: renderPinElements,
     removePinElements: removePinElements,
     removeCard: removeCard,
