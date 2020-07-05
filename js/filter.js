@@ -1,7 +1,6 @@
 'use strict';
 (function () {
-  var DEBOUNCE_INTERVAL = 500;
-  var PRICE = {
+  var price = {
     any: 'any',
     middle: {
       min: 10000,
@@ -23,19 +22,11 @@
   var roomsSelect = filtersForm.querySelector('#housing-rooms');
   var guestsSelect = filtersForm.querySelector('#housing-guests');
   var featuresCheckbox = filtersForm.querySelector('#housing-features');
-  var lastTimeout;
-
-  var debounce = function (cb) {
-    if (lastTimeout) {
-      clearTimeout(lastTimeout);
-    }
-    lastTimeout = setTimeout(cb, DEBOUNCE_INTERVAL);
-  };
 
   var getFilterElement = function () {
     var filterValue = {
       type: typeSelect.selectedOptions[0].value,
-      price: PRICE[priceSelect.selectedOptions[0].value],
+      price: price[priceSelect.selectedOptions[0].value],
       rooms: roomsSelect.selectedOptions[0].value,
       guests: guestsSelect.selectedOptions[0].value,
       features: Array.from(featuresCheckbox.querySelectorAll(':checked')).map(function (el) {
@@ -45,7 +36,7 @@
     return filterValue;
   };
 
-  var updateAnnouncements = function (data) {
+  window.filter = function (data) {
     var filterValue = getFilterElement();
 
     window.map.removePinElements();
@@ -65,10 +56,5 @@
     if (filteredAnnouncements.length !== 0) {
       window.map.renderPinElements(filteredAnnouncements);
     }
-  };
-
-  window.filter = {
-    updateAnnouncements: updateAnnouncements,
-    debounce: debounce,
   };
 })();

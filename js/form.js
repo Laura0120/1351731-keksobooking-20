@@ -3,6 +3,7 @@
 (function () {
   var MIN_TITLE_LENGTH = 30;
   var MAX_PRICE = 1000000;
+
   var adForm = document.querySelector('.ad-form');
   var fieldsetsAdForm = adForm.querySelectorAll('fieldset');
   var roomNumberInput = adForm.querySelector('#room_number');
