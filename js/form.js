@@ -3,14 +3,20 @@
 (function () {
   var MIN_TITLE_LENGTH = 30;
   var MAX_PRICE = 1000000;
+  var FILE_TYPES = ['image/jpeg', 'image/png'];
+
   var adForm = document.querySelector('.ad-form');
   var fieldsetsAdForm = adForm.querySelectorAll('fieldset');
+  var avatarInput = adForm.querySelector('#avatar');
+  var avatarImg = document.querySelector('.ad-form-header__preview img');
   var roomNumberInput = adForm.querySelector('#room_number');
   var numberOfGuestsInput = adForm.querySelector('#capacity');
   var addressInput = adForm.querySelector('#address');
   var titleInput = adForm.querySelector('#title');
   var priceInput = adForm.querySelector('#price');
   var typeHousingInput = adForm.querySelector('#type');
+  var photosInput = adForm.querySelector('#images');
+  var photosContener = adForm.querySelector('.ad-form__photo');
   var accomodationType = {
     bungalo: {
       min: 0,
@@ -28,6 +34,28 @@
       min: 10000,
       name: 'Дворец',
     },
+  };
+
+  var createImg = function () {
+    var photo = document.createElement('img');
+    photo.style = 'margin: 5px; width: 60px; height: 60px;';
+    photo.alt = 'фото обьявления';
+    photosContener.appendChild(photo);
+    return photo;
+  };
+
+  var showImg = function (input, img) {
+    var file = input.files[0];
+    var validType = FILE_TYPES.some(function (it) {
+      return it === file.type;
+    });
+    if (validType) {
+      var reader = new FileReader();
+      reader.addEventListener('load', function () {
+        img.src = reader.result;
+      });
+      reader.readAsDataURL(file);
+    }
   };
 
   var setAddress = function (x, y) {
@@ -67,6 +95,8 @@
       fieldsetsAdForm[i].disabled = true;
     }
     setAddress(window.userPin.location.x, window.userPin.location.y);
+    avatarImg.src = 'img/muffin-grey.svg';
+    photosContener.innerHTML = '';
   };
 
   var enableAdForm = function () {
@@ -100,6 +130,14 @@
     window.backend.save(new FormData(adForm), onUploadSuccess, onUploadError);
     evt.preventDefault();
   };
+
+  photosInput.addEventListener('change', function () {
+    showImg(photosInput, createImg());
+  });
+
+  avatarInput.addEventListener('change', function () {
+    showImg(avatarInput, avatarImg);
+  });
 
   titleInput.addEventListener('input', function () {
     titleInput.reportValidity();
