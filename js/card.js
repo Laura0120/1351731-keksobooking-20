@@ -27,8 +27,8 @@
   var createCardElement = function (announcement) {
     var cardElement = cardTemplate.cloneNode(true);
     var buttonClose = cardElement.querySelector('.popup__close');
-    var featuresOffer = announcement.offer.features;
-    var photosOffer = announcement.offer.photos;
+    var featuresOffers = announcement.offer.features;
+    var photosOffers = announcement.offer.photos;
     var typeOfHousingOffer = announcement.offer.type;
 
     cardElement.querySelector('.popup__title').textContent = announcement.offer.title;
@@ -43,12 +43,12 @@
     cardElement.querySelector('.popup__avatar').src = announcement.author.avatar;
 
     for (var i = 0; i < features.length; i++) {
-      if (featuresOffer.indexOf(features[i]) === -1) {
+      if (featuresOffers.indexOf(features[i]) === -1) {
         cardElement.querySelector('.popup__feature--' + features[i]).remove();
       }
     }
 
-    setupPhotos(cardElement, photosOffer);
+    setupPhotos(cardElement, photosOffers);
 
     var onCardEscPress = function (evt) {
       if (evt.key === window.utils.KEY_ESC) {
