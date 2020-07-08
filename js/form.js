@@ -17,6 +17,8 @@
   var typeHousingInput = adForm.querySelector('#type');
   var photosInput = adForm.querySelector('#images');
   var photosContener = adForm.querySelector('.ad-form__photo');
+  var resetButton = adForm.querySelector('.ad-form__reset');
+  var filtersForm = document.querySelector('.map__filters');
   var accomodationType = {
     bungalo: {
       min: 0,
@@ -36,15 +38,19 @@
     },
   };
 
-  var createImg = function () {
+  var addPhoto = function (image) {
     var photo = document.createElement('img');
     photo.style = 'margin: 5px; width: 60px; height: 60px;';
     photo.alt = 'фото обьявления';
+    photo.src = image;
     photosContener.appendChild(photo);
-    return photo;
   };
 
-  var showImg = function (input, img) {
+  var setAvatar = function (image) {
+    avatarImg.src = image;
+  };
+
+  var uploadImage = function (input, setImageCallback) {
     var file = input.files[0];
     var validType = FILE_TYPES.some(function (it) {
       return it === file.type;
@@ -52,7 +58,7 @@
     if (validType) {
       var reader = new FileReader();
       reader.addEventListener('load', function () {
-        img.src = reader.result;
+        setImageCallback(reader.result);
       });
       reader.readAsDataURL(file);
     }
@@ -107,13 +113,19 @@
     addressInput.readOnly = true;
   };
 
-  var onUploadSuccess = function () {
+  var setInitialState = function () {
     window.map.removePinElements();
     window.map.removeCard();
     adForm.reset();
     window.userPin.reset();
     disableAdForm();
     window.map.disable();
+    filtersForm.reset();
+    window.filter.disable();
+  };
+
+  var onUploadSuccess = function () {
+    setInitialState();
     window.popup.createSuccess();
     document.addEventListener('click', window.popup.onPopupSuccessClose);
     document.addEventListener('keydown', window.popup.onPopupSuccessEscPress);
@@ -132,11 +144,11 @@
   };
 
   photosInput.addEventListener('change', function () {
-    showImg(photosInput, createImg());
+    uploadImage(photosInput, addPhoto);
   });
 
   avatarInput.addEventListener('change', function () {
-    showImg(avatarInput, avatarImg);
+    uploadImage(avatarInput, setAvatar);
   });
 
   titleInput.addEventListener('input', function () {
@@ -168,6 +180,11 @@
   });
 
   adForm.addEventListener('submit', onSubmitHandler);
+
+  resetButton.addEventListener('click', function (evt) {
+    setInitialState();
+    evt.preventDefault();
+  });
 
   handleRoomNumberChange();
 

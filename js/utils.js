@@ -4,6 +4,9 @@
   var KEY_ENTER = 'Enter';
   var KEY_ESC = 'Escape';
   var LEFT_MOUSE_BUTTON = 1;
+  var DEBOUNCE_INTERVAL = 500;
+
+  var lastTimeout;
 
   var getRandomValue = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -26,6 +29,13 @@
     return array[index];
   };
 
+  var debounce = function (cb) {
+    if (lastTimeout) {
+      clearTimeout(lastTimeout);
+    }
+    lastTimeout = setTimeout(cb, DEBOUNCE_INTERVAL);
+  };
+
   window.utils = {
     KEY_ENTER: KEY_ENTER,
     KEY_ESC: KEY_ESC,
@@ -34,5 +44,6 @@
     getRandomItem: getRandomItem,
     getArrayRandomLength: getArrayRandomLength,
     getByIndex: getByIndex,
+    debounce: debounce,
   };
 })();

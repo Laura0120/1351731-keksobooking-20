@@ -1,7 +1,6 @@
 'use strict';
 (function () {
-  var DEBOUNCE_INTERVAL = 500;
-  var PRICE = {
+  var price = {
     any: 'any',
     middle: {
       min: 10000,
@@ -18,24 +17,31 @@
   };
 
   var filtersForm = document.querySelector('.map__filters');
+  var filtersSelect = document.querySelectorAll('.map__filter');
   var typeSelect = filtersForm.querySelector('#housing-type');
   var priceSelect = filtersForm.querySelector('#housing-price');
   var roomsSelect = filtersForm.querySelector('#housing-rooms');
   var guestsSelect = filtersForm.querySelector('#housing-guests');
   var featuresCheckbox = filtersForm.querySelector('#housing-features');
-  var lastTimeout;
 
-  var debounce = function (cb) {
-    if (lastTimeout) {
-      clearTimeout(lastTimeout);
+  var disableFilter = function () {
+    for (var i = 0; i < filtersSelect.length; i++) {
+      filtersSelect[i].disabled = true;
     }
-    lastTimeout = setTimeout(cb, DEBOUNCE_INTERVAL);
+    featuresCheckbox.disabled = true;
+  };
+
+  var enableFilter = function () {
+    for (var i = 0; i < filtersSelect.length; i++) {
+      filtersSelect[i].disabled = false;
+    }
+    featuresCheckbox.disabled = false;
   };
 
   var getFilterElement = function () {
     var filterValue = {
       type: typeSelect.selectedOptions[0].value,
-      price: PRICE[priceSelect.selectedOptions[0].value],
+      price: price[priceSelect.selectedOptions[0].value],
       rooms: roomsSelect.selectedOptions[0].value,
       guests: guestsSelect.selectedOptions[0].value,
       features: Array.from(featuresCheckbox.querySelectorAll(':checked')).map(function (el) {
@@ -45,7 +51,7 @@
     return filterValue;
   };
 
-  var updateAnnouncements = function (data) {
+  var filterUpdate = function (data) {
     var filterValue = getFilterElement();
 
     window.map.removePinElements();
@@ -67,8 +73,11 @@
     }
   };
 
+  disableFilter();
+
   window.filter = {
-    updateAnnouncements: updateAnnouncements,
-    debounce: debounce,
+    update: filterUpdate,
+    disable: disableFilter,
+    enable: enableFilter,
   };
 })();
