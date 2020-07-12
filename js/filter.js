@@ -37,7 +37,7 @@
     }
     featuresCheckbox.disabled = false;
   };
-  
+
   var getFilterElement = function () {
     var filterValue = {
       type: typeSelect.selectedOptions[0].value,
@@ -67,7 +67,7 @@
         })
       );
     });
-    
+
     if (filteredAnnouncements.length !== 0) {
       window.map.renderPinElements(filteredAnnouncements);
     }
@@ -80,5 +80,4 @@
     disable: disableFilter,
     enable: enableFilter,
   };
-
 })();
