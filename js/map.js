@@ -45,7 +45,7 @@
 
   var successHandler = function (data) {
     announcements = data;
-    window.filter.update(announcements);
+   window.filter.update(announcements);
   };
 
   var enable = function () {
