@@ -45,13 +45,14 @@
 
   var successHandler = function (data) {
     announcements = data;
-    window.filter(announcements);
+   window.filter.update(announcements);
   };
 
   var enable = function () {
     if (mapElement.classList.contains('map--faded')) {
       mapElement.classList.remove('map--faded');
       window.form.enable();
+      window.filter.enable();
       window.backend.load(successHandler, window.backend.errorHandler);
     }
   };
@@ -62,7 +63,7 @@
 
   filtersForm.addEventListener('change', function () {
     window.utils.debounce(function () {
-      window.filter(announcements);
+      window.filter.update(announcements);
     });
   });
 

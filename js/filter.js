@@ -17,12 +17,27 @@
   };
 
   var filtersForm = document.querySelector('.map__filters');
+  var filtersSelect = document.querySelectorAll('.map__filter');
   var typeSelect = filtersForm.querySelector('#housing-type');
   var priceSelect = filtersForm.querySelector('#housing-price');
   var roomsSelect = filtersForm.querySelector('#housing-rooms');
   var guestsSelect = filtersForm.querySelector('#housing-guests');
   var featuresCheckbox = filtersForm.querySelector('#housing-features');
 
+  var disableFilter = function () {
+    for (var i = 0; i < filtersSelect.length; i++) {
+      filtersSelect[i].disabled = true;
+    }
+    featuresCheckbox.disabled = true;
+  };
+
+  var enableFilter = function () {
+    for (var i = 0; i < filtersSelect.length; i++) {
+      filtersSelect[i].disabled = false;
+    }
+    featuresCheckbox.disabled = false;
+  };
+  
   var getFilterElement = function () {
     var filterValue = {
       type: typeSelect.selectedOptions[0].value,
@@ -36,9 +51,8 @@
     return filterValue;
   };
 
-  window.filter = function (data) {
+  var filterUpdate = function (data) {
     var filterValue = getFilterElement();
-
     window.map.removePinElements();
     window.map.removeCard();
 
@@ -53,8 +67,18 @@
         })
       );
     });
+    
     if (filteredAnnouncements.length !== 0) {
       window.map.renderPinElements(filteredAnnouncements);
     }
   };
+
+  disableFilter();
+
+  window.filter = {
+    update: filterUpdate,
+    disable: disableFilter,
+    enable: enableFilter,
+  };
+
 })();
