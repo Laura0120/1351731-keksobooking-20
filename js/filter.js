@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  var price = {
+  var PRICE = {
     any: 'any',
     middle: {
       min: 10000,
@@ -15,7 +15,7 @@
       max: Infinity,
     },
   };
-
+  var ANY_VALUE = 'any';
   var filtersForm = document.querySelector('.map__filters');
   var filtersSelect = document.querySelectorAll('.map__filter');
   var typeSelect = filtersForm.querySelector('#housing-type');
@@ -25,23 +25,23 @@
   var featuresCheckbox = filtersForm.querySelector('#housing-features');
 
   var disableFilter = function () {
-    for (var i = 0; i < filtersSelect.length; i++) {
-      filtersSelect[i].disabled = true;
-    }
+    filtersSelect.forEach(function (item) {
+      item.disabled = true;
+    });
     featuresCheckbox.disabled = true;
   };
 
   var enableFilter = function () {
-    for (var i = 0; i < filtersSelect.length; i++) {
-      filtersSelect[i].disabled = false;
-    }
+    filtersSelect.forEach(function (item) {
+      item.disabled = false;
+    });
     featuresCheckbox.disabled = false;
   };
 
   var getFilterElement = function () {
     var filterValue = {
       type: typeSelect.selectedOptions[0].value,
-      price: price[priceSelect.selectedOptions[0].value],
+      price: PRICE[priceSelect.selectedOptions[0].value],
       rooms: roomsSelect.selectedOptions[0].value,
       guests: guestsSelect.selectedOptions[0].value,
       features: Array.from(featuresCheckbox.querySelectorAll(':checked')).map(function (el) {
@@ -58,12 +58,12 @@
 
     var filteredAnnouncements = data.filter(function (it) {
       return (
-        (filterValue.type === 'any' || it.offer.type === filterValue.type) &&
-        (filterValue.price === 'any' || (it.offer.price <= filterValue.price.max && it.offer.price >= filterValue.price.min)) &&
-        (filterValue.rooms === 'any' || String(it.offer.rooms) === filterValue.rooms) &&
-        (filterValue.guests === 'any' || String(it.offer.guests) === filterValue.guests) &&
-        filterValue.features.every(function (el) {
-          return it.offer.features.indexOf(el) !== -1;
+        (filterValue.type === ANY_VALUE || it.offer.type === filterValue.type) &&
+        (filterValue.price === ANY_VALUE || (it.offer.price <= filterValue.price.max && it.offer.price >= filterValue.price.min)) &&
+        (filterValue.rooms === ANY_VALUE || String(it.offer.rooms) === filterValue.rooms) &&
+        (filterValue.guests === ANY_VALUE || String(it.offer.guests) === filterValue.guests) &&
+        filterValue.features.every(function (element) {
+          return it.offer.features.indexOf(element) !== -1;
         })
       );
     });

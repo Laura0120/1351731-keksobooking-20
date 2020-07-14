@@ -70,7 +70,10 @@
         y: moveEvt.clientY,
       };
 
-      if (currentCoords.x + markElement.offsetWidth / 2 >= 0 && currentCoords.x + markElement.offsetWidth / 2 <= window.map.getWidth()) {
+      if (
+        currentCoords.x + Math.ceil(markElement.offsetWidth / 2) >= 0 &&
+        currentCoords.x + Math.ceil(markElement.offsetWidth / 2) <= window.map.getWidth()
+      ) {
         markElement.style.left = currentCoords.x + 'px';
         location.x = currentCoords.x + markElement.offsetWidth / 2;
         window.form.setAddress(location.x, location.y);
