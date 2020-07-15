@@ -24,17 +24,40 @@
     photoElement.remove();
   };
 
+  var setupFeatures = function (element, featuresOffer) {
+    FEATURES.forEach(function (item) {
+      if (featuresOffer.indexOf(item) === -1) {
+        element.querySelector('.popup__feature--' + item).remove();
+      }
+    });
+  };
+
+  var setupEventListener = function (element) {
+    var buttonClose = element.querySelector('.popup__close');
+
+    var onDocumentKeydown = function (evt) {
+      if (evt.key === window.utils.KEY_ESC) {
+        evt.preventDefault();
+        element.remove();
+        document.removeEventListener('keydown', onDocumentKeydown);
+      }
+    };
+
+    buttonClose.addEventListener('click', function () {
+      element.remove();
+      document.removeEventListener('keydown', onDocumentKeydown);
+    });
+
+    document.addEventListener('keydown', onDocumentKeydown);
+  };
+
   var createCardElement = function (announcement) {
     var cardElement = cardTemplate.cloneNode(true);
-    var buttonClose = cardElement.querySelector('.popup__close');
-    var featuresOffers = announcement.offer.features;
-    var photosOffers = announcement.offer.photos;
-    var typeOfHousingOffer = announcement.offer.type;
 
     cardElement.querySelector('.popup__title').textContent = announcement.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = announcement.offer.address;
     cardElement.querySelector('.popup__text--price').textContent = announcement.offer.price + '₽/ночь';
-    cardElement.querySelector('.popup__type').textContent = TYPE_OF_HOUSING[typeOfHousingOffer];
+    cardElement.querySelector('.popup__type').textContent = TYPE_OF_HOUSING[announcement.offer.type];
     cardElement.querySelector('.popup__text--capacity').textContent =
       announcement.offer.rooms + ' комнаты для ' + announcement.offer.guests + ' гостей';
     cardElement.querySelector('.popup__text--time').textContent =
@@ -42,28 +65,9 @@
     cardElement.querySelector('.popup__description').textContent = announcement.offer.description;
     cardElement.querySelector('.popup__avatar').src = announcement.author.avatar;
 
-    FEATURES.forEach(function (item) {
-      if (featuresOffers.indexOf(item) === -1) {
-        cardElement.querySelector('.popup__feature--' + item).remove();
-      }
-    });
-
-    setupPhotos(cardElement, photosOffers);
-
-    var onDocumentKeydown = function (evt) {
-      if (evt.key === window.utils.KEY_ESC) {
-        evt.preventDefault();
-        cardElement.remove();
-        document.removeEventListener('keydown', onDocumentKeydown);
-      }
-    };
-
-    buttonClose.addEventListener('click', function () {
-      cardElement.remove();
-      document.removeEventListener('keydown', onDocumentKeydown);
-    });
-
-    document.addEventListener('keydown', onDocumentKeydown);
+    setupFeatures(cardElement, announcement.offer.features);
+    setupPhotos(cardElement, announcement.offer.photos);
+    setupEventListener(cardElement);
     return cardElement;
   };
 

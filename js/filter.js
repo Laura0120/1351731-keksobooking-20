@@ -16,6 +16,7 @@
     },
   };
   var ANY_VALUE = 'any';
+
   var filtersForm = document.querySelector('.map__filters');
   var filtersSelect = document.querySelectorAll('.map__filter');
   var typeSelect = filtersForm.querySelector('#housing-type');
@@ -44,8 +45,8 @@
       price: PRICE[priceSelect.selectedOptions[0].value],
       rooms: roomsSelect.selectedOptions[0].value,
       guests: guestsSelect.selectedOptions[0].value,
-      features: Array.from(featuresCheckbox.querySelectorAll(':checked')).map(function (el) {
-        return el.value;
+      features: Array.from(featuresCheckbox.querySelectorAll(':checked')).map(function (element) {
+        return element.value;
       }),
     };
     return filterValue;

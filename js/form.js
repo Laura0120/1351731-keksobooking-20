@@ -23,12 +23,12 @@
     },
   };
   var HOUSING_NOT_FOR_GUESTS = {
-    rooms: '100',
-    guests: '0',
+    Rooms: '100',
+    Guests: '0',
   };
 
   var adForm = document.querySelector('.ad-form');
-  var fieldsetsAdForm = adForm.querySelectorAll('fieldset');
+  var adFormfieldsets = adForm.querySelectorAll('fieldset');
   var avatarInput = adForm.querySelector('#avatar');
   var avatarImg = document.querySelector('.ad-form-header__preview img');
   var roomNumberSelect = adForm.querySelector('#room_number');
@@ -76,9 +76,9 @@
 
   var handleRoomNumberChange = function () {
     Array.from(numberOfGuestsSelect.options).forEach(function (item) {
-      if (roomNumberSelect.value === HOUSING_NOT_FOR_GUESTS.rooms) {
-        item.disabled = item.value > HOUSING_NOT_FOR_GUESTS.guests;
-      } else if (item.value <= roomNumberSelect.value && item.value !== HOUSING_NOT_FOR_GUESTS.guests) {
+      if (roomNumberSelect.value === HOUSING_NOT_FOR_GUESTS.Rooms) {
+        item.disabled = item.value > HOUSING_NOT_FOR_GUESTS.Guests;
+      } else if (item.value <= roomNumberSelect.value && item.value !== HOUSING_NOT_FOR_GUESTS.Guests) {
         item.disabled = false;
       } else {
         item.disabled = true;
@@ -121,7 +121,7 @@
 
   var disableAdForm = function () {
     adForm.classList.add('ad-form--disabled');
-    Array.from(fieldsetsAdForm).forEach(function (item) {
+    Array.from(adFormfieldsets).forEach(function (item) {
       item.disabled = true;
     });
     setAddress(window.userPin.location.x, window.userPin.location.y);
@@ -131,7 +131,7 @@
 
   var enableAdForm = function () {
     adForm.classList.remove('ad-form--disabled');
-    Array.from(fieldsetsAdForm).forEach(function (item) {
+    Array.from(adFormfieldsets).forEach(function (item) {
       item.disabled = false;
     });
     addressInput.readOnly = true;

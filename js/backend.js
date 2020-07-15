@@ -3,14 +3,13 @@
   var URL_GET = 'https://javascript.pages.academy/keksobooking/data';
   var URL_POST = 'https://javascript.pages.academy/keksobooking';
   var TIMEOUT_IN_MS = 10000;
-
-  var statusCode = {
-    OK: 200,
+  var STATUS_CODE = {
+    Ok: 200,
   };
 
   var setupCallbacks = function (xhr, onError, onSuccess) {
     xhr.addEventListener('load', function () {
-      if (xhr.status === statusCode.OK) {
+      if (xhr.status === STATUS_CODE.Ok) {
         onSuccess(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
