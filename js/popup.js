@@ -1,62 +1,54 @@
 'use strict';
 
 (function () {
-  var mainElenent = document.querySelector('main');
-  var successTemplate = document.querySelector('#success').content.querySelector('.success ');
-  var successElement = successTemplate.cloneNode(true);
+  var mainElement = document.querySelector('main');
   var errorTemplate = document.querySelector('#error').content.querySelector('.error ');
   var errorElement = errorTemplate.cloneNode(true);
-  var errorMessageElement = errorElement.querySelector('.error__message');
   var errorButton = errorElement.querySelector('.error__button');
+  var errorMessageElement = errorElement.querySelector('.error__message');
+  var successTemplate = document.querySelector('#success').content.querySelector('.success ');
+  var successElement = successTemplate.cloneNode(true);
 
-  var createSuccess = function () {
-    mainElenent.appendChild(successElement);
+  var currentPopup;
+
+  var hide = function () {
+    currentPopup.remove();
+    document.removeEventListener('click', onDocumentClick);
+    document.removeEventListener('keydown', onDocumentKeydown);
   };
 
-  var onPopupSuccessEscPress = function (evt) {
-    if (evt.key === window.utils.KEY_ESC) {
-      evt.preventDefault();
-      successElement.remove();
-      document.removeEventListener('click', onPopupSuccessClose);
-    }
+  var showOnSuccess = function () {
+    currentPopup = successElement;
+    mainElement.appendChild(successElement);
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onDocumentKeydown);
   };
 
-  var onPopupSuccessClose = function () {
-    successElement.remove();
-    document.removeEventListener('click', onPopupSuccessClose);
-    document.removeEventListener('keydown', onPopupSuccessEscPress);
-  };
-
-  var createErrorPopup = function (errorMessage) {
+  var showOnError = function (errorMessage) {
+    currentPopup = errorElement;
     errorMessageElement.textContent = 'Ошибка загрузки объявления. ' + errorMessage;
-    mainElenent.appendChild(errorElement);
+    mainElement.appendChild(errorElement);
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onDocumentKeydown);
   };
 
-  var onPopupErrorEscPress = function (evt) {
+  var onDocumentClick = function () {
+    hide();
+  };
+
+  var onDocumentKeydown = function (evt) {
     if (evt.key === window.utils.KEY_ESC) {
       evt.preventDefault();
-      errorElement.remove();
-      document.removeEventListener('click', onPopupErrorClose);
-      errorButton.removeEventListener('click', onPopupErrorClose);
+      hide();
     }
   };
 
-  var onPopupErrorClose = function () {
-    errorButton.addEventListener('click', function () {
-      errorElement.remove();
-      document.removeEventListener('click', onPopupErrorClose);
-      errorButton.removeEventListener('click', onPopupErrorClose);
-      document.removeEventListener('keydown', onPopupErrorEscPress);
-    });
-  };
+  errorButton.addEventListener('click', function () {
+    hide();
+  });
 
   window.popup = {
-    errorButton: errorButton,
-    createSuccess: createSuccess,
-    onPopupSuccessClose: onPopupSuccessClose,
-    onPopupSuccessEscPress: onPopupSuccessEscPress,
-    createErrorPopup: createErrorPopup,
-    onPopupErrorClose: onPopupErrorClose,
-    onPopupErrorEscPress: onPopupErrorEscPress,
+    showOnError: showOnError,
+    showOnSuccess: showOnSuccess,
   };
 })();

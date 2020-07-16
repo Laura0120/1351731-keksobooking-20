@@ -10,8 +10,9 @@
     var pinElement = pinTemplate.cloneNode(true);
     pinElement.style.left = announcement.location.x - PIN_WIDTH / 2 + 'px';
     pinElement.style.top = announcement.location.y - PIN_HEIGHT + 'px';
-    pinElement.querySelector('img').src = announcement.author.avatar;
-    pinElement.querySelector('img').alt = announcement.offer.title;
+    var pinImg = pinElement.querySelector('img');
+    pinImg.src = announcement.author.avatar;
+    pinImg.alt = announcement.offer.title;
     return pinElement;
   };
 
