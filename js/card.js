@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-  //это константа, см. строку 61
+  // это константа, см. строку 61
   var TYPE_OF_HOUSING = {
     flat: 'Квартира',
     bungalo: 'Бунгало',
