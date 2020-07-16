@@ -1,11 +1,12 @@
 'use strict';
 (function () {
   var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+  //это константа, см. строку 61
   var TYPE_OF_HOUSING = {
-    Flat: 'Квартира',
-    Bungalo: 'Бунгало',
-    House: 'Дом',
-    Palace: 'Дворец',
+    flat: 'Квартира',
+    bungalo: 'Бунгало',
+    house: 'Дом',
+    palace: 'Дворец',
   };
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
@@ -24,9 +25,9 @@
     photoElement.remove();
   };
 
-  var setupFeatures = function (element, featuresOffer) {
+  var setupFeatures = function (element, featureOffers) {
     FEATURES.forEach(function (item) {
-      if (featuresOffer.indexOf(item) === -1) {
+      if (featureOffers.indexOf(item) === -1) {
         element.querySelector('.popup__feature--' + item).remove();
       }
     });
