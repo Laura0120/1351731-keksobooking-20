@@ -4,7 +4,7 @@
   var MIN_TITLE_LENGTH = 30;
   var MAX_PRICE = 1000000;
   var FILE_TYPES = ['image/jpeg', 'image/png'];
-  var ACCOMODATIONTYPE = {
+  var ACCOMODATION_TYPE = {
     bungalo: {
       min: 0,
       name: 'Бунгало',
@@ -87,16 +87,14 @@
 
     var selectedOption = numberOfGuestsSelect.selectedOptions[0];
 
-    numberOfGuestsSelect.setCustomValidity('');
-    if (selectedOption.disabled === true) {
-      numberOfGuestsSelect.setCustomValidity('выбрано недопустимое значение');
-    }
+    var errorMessage = selectedOption.disabled ? 'выбрано недопустимое значение' : '';
+    numberOfGuestsSelect.setCustomValidity(errorMessage);
   };
 
   var handlePrice = function () {
     var selectedType = typeHousingSelect.selectedOptions[0].value;
-    priceInput.min = ACCOMODATIONTYPE[selectedType].min;
-    priceInput.placeholder = ACCOMODATIONTYPE[selectedType].min;
+    priceInput.min = ACCOMODATION_TYPE[selectedType].min;
+    priceInput.placeholder = ACCOMODATION_TYPE[selectedType].min;
   };
 
   var handleTimeoutChange = function () {
